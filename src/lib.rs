@@ -437,3 +437,38 @@ macro_rules! mkprim {
 
     { } => { }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::num::Float;
+
+    mkprim! {
+        A(f32);
+        pub B(f32);
+        C(pub f32);
+        pub D(pub f32);
+    }
+
+    #[test]
+    fn operators_work() {
+        let x = A(22.0);
+
+        // Not so much concerned about checking the math as about making sure the compiler doesn't
+        // complain.
+        assert_eq!(x + x, A(44.0));
+        assert_eq!(x - x, A(0.0));
+        assert_eq!(x * x, A(484.0));
+        assert_eq!(x / x, A(1.0));
+    }
+
+    fn floaty<F: Float>(f: F) -> F {
+        f + f * f
+    }
+
+    #[test]
+    fn traits_implemented() {
+        let x = A(1.1);
+
+        assert_eq!(floaty(x), A(1.1 + 1.1 * 1.1))
+    }
+}
