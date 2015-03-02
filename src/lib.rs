@@ -377,7 +377,9 @@ macro_rules! __impl_float_type {
 ///    // `add_one` function.
 ///    use std::num::Float;
 ///
-///    float_type!(Meters(f32));
+///    float_type!{
+///        Meters(f32);
+///    }
 ///
 ///    fn add_one<F: Float>(f: F) -> F {
 ///        f + Float::one()
@@ -390,25 +392,25 @@ macro_rules! __impl_float_type {
 /// ```
 #[macro_export]
 macro_rules! float_type {
-    ($name:ident ( $t:ty ) ) => {
+    { $name:ident ( $t:ty ) ; } => {
         #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
         struct $name($t);
         __impl_float_type!($name, $t);
     };
 
-    ($name:ident ( pub $t:ty ) ) => {
+    { $name:ident ( pub $t:ty ) ; } => {
         #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
         struct $name(pub $t);
         __impl_float_type!($name, $t);
     };
 
-    (pub $name:ident ( $t:ty ) ) => {
+    { pub $name:ident ( $t:ty ) ; } => {
         #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
         pub struct $name($t);
         __impl_float_type!($name, $t);
     };
 
-    (pub $name:ident ( pub $t:ty ) ) => {
+    { pub $name:ident ( pub $t:ty ) ; } => {
         #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
         pub struct $name(pub $t);
         __impl_float_type!($name, $t);

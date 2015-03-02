@@ -23,7 +23,18 @@ moment this is the only macro that's implemented, but I will have `int_type!` an
 macros available soon. For example:
 
 ```rust
-float_type!(Seconds);
+float_type! {
+    Seconds(f32);
+}
 ```
 
 will create a type name `Seconds` which implements the `std::num::Float` trait.
+
+You can specify access rights just like you would for any other newtype-style struct. So to make the
+type and its implementation public, simply do:
+
+```rust
+float_type! {
+    pub Furlongs(pub f64);
+}
+```
