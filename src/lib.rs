@@ -392,6 +392,9 @@ macro_rules! __impl_float_type {
 ///    }
 ///
 ///    fn main() {
+///        // This gives us access to the `abs` method
+///        use ::std::num::Float;
+///
 ///        let f = Feet(5.0);
 ///
 ///        // This example is totally straightforward and useful, right? RIGHT?
