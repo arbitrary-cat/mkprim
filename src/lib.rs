@@ -15,7 +15,10 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#[feature(std_misc)]
+// Need feature(core) for tests, but the compiler complains that we're using the feature
+// unnecessarily when *not* building tests >_<.
+#![allow(unused_features)]
+#![feature(core, std_misc)]
 
 #[macro_export]
 macro_rules! __impl_float_type {
@@ -363,69 +366,16 @@ macro_rules! __impl_float_type {
     }
 }
 
-/// Create a newtype named `$name` with underlying type `$t`, which implements the
-/// `std::num::Float` trait (`$t` must implement `std::num::Float` in order for this to work).
+/// The `mkprim` macro allows the declaration of newtype wrappers for primitive rust types which
+/// retain the mathematical operations of the underlying type. For floating point types this means
+/// that the resulting newtype will implement `std::num::Float`, for integral types **(not yet
+/// implemented)** this means the newtype will implement `std::num::Int`. 
 ///
 /// ```rust
 ///    #[macro_use]
 ///    extern crate mkprim;
 ///
-///    // This import is not necessary for the macro to work, but it is necessary to write the
-///    // `add_one` function.
-///    use std::num::Float;
-///
-///    float_type!{
-///        Meters(f32);
-///    }
-///
-///    fn add_one<F: Float>(f: F) -> F {
-///        f + Float::one()
-///    }
-///
-///    fn main() {
-///        let m = Meters(5.0);
-///        assert_eq!(add_one(m), Meters(6.0));
-///    }
-/// ```
-#[macro_export]
-macro_rules! float_type {
-    { $name:ident ( $t:ty ) ; } => {
-        #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
-        struct $name($t);
-        __impl_float_type!($name, $t);
-    };
-
-    { $name:ident ( pub $t:ty ) ; } => {
-        #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
-        struct $name(pub $t);
-        __impl_float_type!($name, $t);
-    };
-
-    { pub $name:ident ( $t:ty ) ; } => {
-        #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
-        pub struct $name($t);
-        __impl_float_type!($name, $t);
-    };
-
-    { pub $name:ident ( pub $t:ty ) ; } => {
-        #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
-        pub struct $name(pub $t);
-        __impl_float_type!($name, $t);
-    }
-}
-
-/// Create a newtype named `$name` with underlying type `$t`, which implements the
-/// `std::num::Float` trait (`$t` must implement `std::num::Float` in order for this to work).
-///
-/// ```rust
-///    #[macro_use]
-///    extern crate mkprim;
-///
-///    // This import is not necessary for the macro to work, but it is necessary to write the
-///    // `add_one` function.
-///    use std::num::Float;
-///
-///    mkprim!{
+///    mkprim! {
 ///        Meters(f32);
 ///        Feet(f32);
 ///    }
@@ -437,25 +387,21 @@ macro_rules! float_type {
 ///        }
 ///    }
 ///
-///    fn add_one<F: Float>(f: F) -> F {
-///        f + Float::one()
+///    fn add_one<F: std::num::Float>(f: F) -> F {
+///        f + std::num::Float::one()
 ///    }
 ///
 ///    fn main() {
 ///        let f = Feet(5.0);
+///
+///        // This example is totally straightforward and useful, right? RIGHT?
 ///        let abs_diff = (add_one(f).to_meters() - Meters(1.8288)).abs();
+///
 ///        assert!(abs_diff < Meters(1e-10));
 ///    }
 /// ```
 #[macro_export]
 macro_rules! mkprim {
-    { $name:ident ( $t:ty ) ; $($rest:tt)* } => {
-        #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
-        struct $name($t);
-        __impl_float_type!($name, $t);
-
-        mkprim!{ $($rest)* }
-    };
 
     { $name:ident ( pub $t:ty ) ; $($rest:tt)* } => {
         #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
@@ -465,9 +411,9 @@ macro_rules! mkprim {
         mkprim!{ $($rest)* }
     };
 
-    { pub $name:ident ( $t:ty ) ; $($rest:tt)* } => {
+    { $name:ident ( $t:ty ) ; $($rest:tt)* } => {
         #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
-        pub struct $name($t);
+        struct $name($t);
         __impl_float_type!($name, $t);
 
         mkprim!{ $($rest)* }
@@ -476,6 +422,14 @@ macro_rules! mkprim {
     { pub $name:ident ( pub $t:ty ) ; $($rest:tt)* } => {
         #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
         pub struct $name(pub $t);
+        __impl_float_type!($name, $t);
+
+        mkprim!{ $($rest)* }
+    };
+
+    { pub $name:ident ( $t:ty ) ; $($rest:tt)* } => {
+        #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
+        pub struct $name($t);
         __impl_float_type!($name, $t);
 
         mkprim!{ $($rest)* }
