@@ -1,5 +1,4 @@
-# mkprim
-
+# mkprim 
 A macro library for creating type-safe wrappers for rust's primitive types.
 
 ## Usage
@@ -38,3 +37,5 @@ float_type! {
     pub Furlongs(pub f64);
 }
 ```
+
+[![Build Status](https://travis-ci.org/arbitrary-cat/mkprim.svg?branch=master)](https://travis-ci.org/arbitrary-cat/mkprim)
