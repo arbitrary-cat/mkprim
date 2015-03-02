@@ -20,7 +20,7 @@
 #[macro_export]
 macro_rules! __impl_float_type {
     ( $name:ident , $t:ty ) => {
-        impl std::ops::Neg for $name {
+        impl ::std::ops::Neg for $name {
             type Output = $name;
 
             #[inline]
@@ -29,7 +29,7 @@ macro_rules! __impl_float_type {
             }
         }
 
-        impl std::ops::Add for $name {
+        impl ::std::ops::Add for $name {
             type Output = $name;
 
             #[inline]
@@ -38,7 +38,7 @@ macro_rules! __impl_float_type {
             }
         }
 
-        impl std::ops::Sub for $name {
+        impl ::std::ops::Sub for $name {
             type Output = $name;
 
             #[inline]
@@ -47,7 +47,7 @@ macro_rules! __impl_float_type {
             }
         }
 
-        impl std::ops::Mul for $name {
+        impl ::std::ops::Mul for $name {
             type Output = $name;
 
             #[inline]
@@ -56,7 +56,7 @@ macro_rules! __impl_float_type {
             }
         }
 
-        impl std::ops::Div for $name {
+        impl ::std::ops::Div for $name {
             type Output = $name;
 
             #[inline]
@@ -65,7 +65,7 @@ macro_rules! __impl_float_type {
             }
         }
 
-        impl std::ops::Rem for $name {
+        impl ::std::ops::Rem for $name {
             type Output = $name;
 
             #[inline]
@@ -74,14 +74,14 @@ macro_rules! __impl_float_type {
             }
         }
 
-        impl std::num::NumCast for $name {
+        impl ::std::num::NumCast for $name {
             #[inline]
-            fn from<T: std::num::ToPrimitive>(n: T) -> Option<Self> {
-                std::num::NumCast::from(n).map($name)
+            fn from<T: ::std::num::ToPrimitive>(n: T) -> Option<Self> {
+                ::std::num::NumCast::from(n).map($name)
             }
         }
 
-        impl std::num::ToPrimitive for $name {
+        impl ::std::num::ToPrimitive for $name {
 
             #[inline]
             fn to_i64(&self) -> Option<i64> { self.0.to_i64() }
@@ -120,79 +120,79 @@ macro_rules! __impl_float_type {
             fn to_f64(&self) -> Option<f64> { self.0.to_f64() }
         }
 
-        impl std::num::Float for $name {
+        impl ::std::num::Float for $name {
 
             #[inline]
-            fn nan() -> Self { $name(std::num::Float::nan()) }
+            fn nan() -> Self { $name(::std::num::Float::nan()) }
 
             #[inline]
-            fn infinity() -> Self { $name(std::num::Float::infinity()) }
+            fn infinity() -> Self { $name(::std::num::Float::infinity()) }
 
             #[inline]
-            fn neg_infinity() -> Self { $name(std::num::Float::neg_infinity()) }
+            fn neg_infinity() -> Self { $name(::std::num::Float::neg_infinity()) }
 
             #[inline]
-            fn zero() -> Self { $name(std::num::Float::zero()) }
+            fn zero() -> Self { $name(::std::num::Float::zero()) }
 
             #[inline]
-            fn neg_zero() -> Self { $name(std::num::Float::neg_zero()) }
+            fn neg_zero() -> Self { $name(::std::num::Float::neg_zero()) }
 
             #[inline]
-            fn one() -> Self { $name(std::num::Float::one()) }
+            fn one() -> Self { $name(::std::num::Float::one()) }
 
             #[inline]
             #[allow(deprecated)]
             fn mantissa_digits(_unused_self: Option<Self>) -> usize {
-                std::num::Float::mantissa_digits(None::<$t>)
+                ::std::num::Float::mantissa_digits(None::<$t>)
             }
 
             #[inline]
             #[allow(deprecated)]
             fn digits(_unused_self: Option<Self>) -> usize {
-                std::num::Float::digits(None::<$t>)
+                ::std::num::Float::digits(None::<$t>)
             }
 
             #[inline]
             #[allow(deprecated)]
-            fn epsilon() -> Self { $name(std::num::Float::epsilon()) }
+            fn epsilon() -> Self { $name(::std::num::Float::epsilon()) }
 
             #[inline]
             #[allow(deprecated)]
             fn min_exp(_unused_self: Option<Self>) -> isize {
-                std::num::Float::min_exp(None::<$t>)
+                ::std::num::Float::min_exp(None::<$t>)
             }
 
             #[inline]
             #[allow(deprecated)]
             fn max_exp(_unused_self: Option<Self>) -> isize {
-                std::num::Float::max_exp(None::<$t>)
+                ::std::num::Float::max_exp(None::<$t>)
             }
 
             #[inline]
             #[allow(deprecated)]
             fn min_10_exp(_unused_self: Option<Self>) -> isize {
-                std::num::Float::min_10_exp(None::<$t>)
+                ::std::num::Float::min_10_exp(None::<$t>)
             }
 
             #[inline]
             #[allow(deprecated)]
             fn max_10_exp(_unused_self: Option<Self>) -> isize {
-                std::num::Float::max_10_exp(None::<$t>)
+                ::std::num::Float::max_10_exp(None::<$t>)
             }
 
             #[inline]
             fn min_value() -> Self {
-                $name(std::num::Float::min_value())
+                $name(::std::num::Float::min_value())
             }
 
             #[inline]
             fn min_pos_value(_unused_self: Option<Self>) -> Self {
-                $name(std::num::Float::min_pos_value(None::<$t>))
+                $name(::std::num::Float::min_pos_value(None::<$t>))
             }
 
             #[inline]
             fn max_value() -> Self {
-                $name(std::num::Float::max_value())
+                $name(::std::num::Float::max_value())
             }
 
             #[inline]
@@ -208,7 +208,7 @@ macro_rules! __impl_float_type {
             fn is_normal(self) -> bool { self.0.is_normal() }
 
             #[inline]
-            fn classify(self) -> std::num::FpCategory { self.0.classify() }
+            fn classify(self) -> ::std::num::FpCategory { self.0.classify() }
 
             #[inline]
             fn integer_decode(self) -> (u64, i16, i8) { self.0.integer_decode() }
@@ -283,7 +283,7 @@ macro_rules! __impl_float_type {
             fn to_radians(self) -> Self { $name(self.0.to_radians()) }
 
             #[inline]
-            fn ldexp(x: Self, exp: isize) -> Self { $name(std::num::Float::ldexp(x.0, exp)) }
+            fn ldexp(x: Self, exp: isize) -> Self { $name(::std::num::Float::ldexp(x.0, exp)) }
 
             #[inline]
             fn frexp(self) -> (Self, isize) {
