@@ -53,3 +53,9 @@ mkprim! {
 ```
 
 [![Build Status](https://travis-ci.org/arbitrary-cat/mkprim.svg?branch=master)](https://travis-ci.org/arbitrary-cat/mkprim)
+
+## Limitations
+
+The biggest problem with `mkprim` right now is that you can't put doc comments on the types. Maybe
+there's a way to make this work, but for now it causes a syntax error. Regular comments, however,
+are allowed and encouraged!
