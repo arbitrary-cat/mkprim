@@ -93,7 +93,7 @@ macro_rules! __impl_float_type {
             fn to_u64(&self) -> Option<u64> { self.0.to_u64() }
 
             #[inline]
-            fn to_int(&self) -> Option<isize> { self.0.to_int() }
+            fn to_isize(&self) -> Option<isize> { self.0.to_isize() }
 
             #[inline]
             fn to_i8(&self) -> Option<i8> { self.0.to_i8() }
@@ -105,7 +105,7 @@ macro_rules! __impl_float_type {
             fn to_i32(&self) -> Option<i32> { self.0.to_i32() }
 
             #[inline]
-            fn to_uint(&self) -> Option<usize> { self.0.to_uint() }
+            fn to_usize(&self) -> Option<usize> { self.0.to_usize() }
 
             #[inline]
             fn to_u8(&self) -> Option<u8> { self.0.to_u8() }
