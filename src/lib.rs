@@ -376,8 +376,8 @@ macro_rules! __impl_float_type {
 ///    extern crate mkprim;
 ///
 ///    mkprim! {
-///        Meters(f32);
-///        Feet(f32);
+///        float Meters(f32);
+///        float Feet(f32);
 ///    }
 ///
 ///    impl Feet {
@@ -406,7 +406,8 @@ macro_rules! __impl_float_type {
 #[macro_export]
 macro_rules! mkprim {
 
-    { $name:ident ( pub $t:ty ) ; $($rest:tt)* } => {
+    { $(#[$attr:meta])* float $name:ident ( pub $t:ty ) ; $($rest:tt)* } => {
+        $(#[$attr])*
         #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
         struct $name(pub $t);
         __impl_float_type!($name, $t);
@@ -414,7 +415,8 @@ macro_rules! mkprim {
         mkprim!{ $($rest)* }
     };
 
-    { $name:ident ( $t:ty ) ; $($rest:tt)* } => {
+    { $(#[$attr:meta])* float $name:ident ( $t:ty ) ; $($rest:tt)* } => {
+        $(#[$attr])*
         #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
         struct $name($t);
         __impl_float_type!($name, $t);
@@ -422,7 +424,8 @@ macro_rules! mkprim {
         mkprim!{ $($rest)* }
     };
 
-    { pub $name:ident ( pub $t:ty ) ; $($rest:tt)* } => {
+    { $(#[$attr:meta])* pub float $name:ident ( pub $t:ty ) ; $($rest:tt)* } => {
+        $(#[$attr])*
         #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
         pub struct $name(pub $t);
         __impl_float_type!($name, $t);
@@ -430,7 +433,8 @@ macro_rules! mkprim {
         mkprim!{ $($rest)* }
     };
 
-    { pub $name:ident ( $t:ty ) ; $($rest:tt)* } => {
+    { $(#[$attr:meta])* pub float $name:ident ( $t:ty ) ; $($rest:tt)* } => {
+        $(#[$attr])*
         #[derive(Copy, Clone, PartialOrd, PartialEq, Debug)]
         pub struct $name($t);
         __impl_float_type!($name, $t);
@@ -446,10 +450,11 @@ mod tests {
     use std::num::Float;
 
     mkprim! {
-        A(f32);
-        pub B(f32);
-        C(pub f32);
-        pub D(pub f32);
+        /// Doc comment
+        float A(f32);
+        pub float B(f32);
+        float C(pub f32);
+        pub float D(pub f32);
     }
 
     #[test]
