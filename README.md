@@ -21,7 +21,7 @@ Once you've done this, you can create primitive-like types using the `mkprim!` m
 
 ```rust
 mkprim! {
-    Kilograms(f32);
+    float Kilograms(f32);
 }
 ```
 
@@ -35,7 +35,7 @@ type and its implementation public, simply do:
 
 ```rust
 mkprim! {
-    pub Furlongs(pub f64);
+    pub float Furlongs(pub f64);
 }
 ```
 
@@ -43,12 +43,12 @@ You may have multiple types declared in the same `mkprim!` block:
 
 ```rust
 mkprim! {
-    pub Years(f32);
-    pub Months(f32);
-    pub Days(f32);
-    pub Hours(f32);
-    pub Minutes(f32);
-    pub Seconds(f32);
+    pub float Years(f32);
+    pub float Months(f32);
+    pub float Days(f32);
+    pub float Hours(f32);
+    pub float Minutes(f32);
+    pub float Seconds(f32);
 }
 ```
 
