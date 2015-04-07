@@ -6,13 +6,18 @@ A macro library for creating type-safe wrappers for rust's primitive types.
 To use `mkprim` in your rust program, add the following to your `Cargo.toml`:
 
 ```toml
+[dependencies]
+num = "0.1.22"
+
 [dependencies.mkprim]
 git = "https://github.com/arbitrary-cat/mkprim.git"
 ```
 
-Then, at the crate root, import it with the `macro_use` attribute:
+Then, at the crate root, import the `num` crate, as well as `mkprim` with the `macro_use` attribute:
 
 ```rust
+extern crate num;
+
 #[macro_use]
 extern crate mkprim;
 ```
@@ -25,7 +30,7 @@ mkprim! {
 }
 ```
 
-will create a type name `Kilograms` which implements the `std::num::Float` trait.
+will create a type name `Kilograms` which implements the `num::Float` trait.
 
 Right now **integral types are not implemented**, but in the future you'll be able to create
 newtypes based on the integer types which automatically implement `std::num::Int`.
@@ -35,6 +40,7 @@ type and its implementation public, simply do:
 
 ```rust
 mkprim! {
+    /// An obscure unit used primarily in examples.
     pub float Furlongs(pub f64);
 }
 ```
