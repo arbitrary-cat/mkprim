@@ -128,6 +128,10 @@ macro_rules! __impl_float_type {
 
             #[inline] fn neg_zero() -> Self { $name(::num::Float::neg_zero()) }
 
+            #[inline] fn min_positive_value() -> Self {
+                $name(::num::Float::min_positive_value())
+            }
+
             #[inline] fn min_value() -> Self {
                 $name(::num::Float::min_value())
             }

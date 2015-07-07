@@ -7,7 +7,7 @@ To use `mkprim` in your rust program, add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-num = "0.1.22"
+num = "0.1.25"
 
 [dependencies.mkprim]
 git = "https://github.com/arbitrary-cat/mkprim.git"
